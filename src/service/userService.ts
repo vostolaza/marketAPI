@@ -17,6 +17,10 @@ const userService = {
       });
     });
   },
+  get: async (): Promise<UserDTO[]> => {
+    const users = await User.find({});
+    return users;
+  },
 };
 
 export default userService;
