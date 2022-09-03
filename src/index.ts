@@ -1,6 +1,9 @@
 import app from "./app";
 import mongoose from "mongoose";
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 mongoose
   .connect(process.env.DB_URL!)
   .then(() => {
