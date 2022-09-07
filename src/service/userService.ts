@@ -17,9 +17,13 @@ const userService = {
       });
     });
   },
-  get: async (): Promise<UserDTO[]> => {
+  get: async (): Promise<any> => {
     const users = await User.find({});
     return users;
+  },
+  getById: async (id): Promise<any> => {
+    const user = await User.findOne({ _id: id });
+    return user;
   },
 };
 

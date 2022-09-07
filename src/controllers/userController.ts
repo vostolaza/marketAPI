@@ -12,4 +12,13 @@ userController.get("/", async (req: Request, res: Response) => {
   }
 });
 
+userController.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const users = await userService.getById(req.params.id);
+    res.status(200).send(users);
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
 export default userController;
