@@ -41,7 +41,7 @@ const purchaseService = {
       let valid = items.length > 0;
       let purchaseTotal = 0;
       for (var i = 0; i < sortedProducts.length; i++) {
-        valid = valid && sortedProducts[i].stock >= sortedItems[i].quantity;
+        valid = valid && sortedItems[i].quantity > 0 && sortedProducts[i].stock >= sortedItems[i].quantity;
         sortedItems[i].price = (sortedProducts[i].price as number) * sortedItems[i].quantity;
         sortedItems[i].name = sortedProducts[i].name;
         sortedItems[i].description = sortedProducts[i].description;
