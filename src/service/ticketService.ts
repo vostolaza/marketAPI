@@ -40,6 +40,16 @@ const ticketService = {
       );
     });
   },
+  getByUserId: async (userId): Promise<TicketDTO> => {
+    return new Promise<TicketDTO>((resolve, reject) => {
+      Ticket.find({ userId }, (err: CallbackError, ticket: TicketDTO) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(ticket);
+      });
+    });
+  },
   getByStatus: async (ticketStatus): Promise<TicketDTO[]> => {
     return new Promise<TicketDTO[]>((resolve, reject) => {
       Ticket.find(

@@ -1,6 +1,4 @@
 import express, { Request, Response, Router } from "express";
-import { JwtPayload } from "jsonwebtoken";
-import { USER_ROLES } from "../utils/constants/userRoles";
 import productService from "../service/productService";
 import { adminRoute } from "../middleware/adminRoute";
 
@@ -42,10 +40,6 @@ productController.patch(
   adminRoute,
   async (req: Request, res: Response) => {
     try {
-      // if(req.token && req.token.role === USER_ROLES.CLIENT) {
-      //   res.status(401).send({ error: "Unauthorized." });
-      //   return;
-      // }
       const purchases = await productService.updateById(
         req.params.productId,
         req.body

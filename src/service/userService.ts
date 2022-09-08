@@ -36,7 +36,6 @@ const userService = {
           const token = jwt.sign(
             {
               id: foundUser._id,
-              name: foundUser.username,
               role: foundUser.role,
             },
             JWT_KEY,

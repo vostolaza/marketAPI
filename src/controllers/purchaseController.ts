@@ -15,20 +15,35 @@ purchaseController.get("/", adminRoute, async (req: Request, res: Response) => {
 
 purchaseController.get("/:purchaseId", async (req: Request, res: Response) => {
   try {
-    const purchase = await purchaseService.getById(req.params.purchaseId);
+    if (!req.token) {
+      res.status(401).send("User not logged in.");
+      return;
+    }
+    const purchase = await purchaseService.getById(
+      req.params.purchaseId,
+      req.token.id
+    );
     if (purchase === null) {
       res.status(404).send();
     } else {
       res.status(200).send(purchase);
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send("a");
   }
 });
 
 purchaseController.get("/user/:userId", async (req: Request, res: Response) => {
   try {
-    const purchases = await purchaseService.getByUserId(req.params.userId);
+    if (!req.token) {
+      res.status(401).send("User not logged in.");
+      return;
+    }
+    if (req.token.id !== req.params.id) {
+      res.status(401).send("Unauthorized.");
+      return;
+    }
+    const purchases = await purchaseService.getByUserId(req.token.id);
     res.status(200).send(purchases);
   } catch (error) {
     res.status(500).send(error);

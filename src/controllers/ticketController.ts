@@ -4,11 +4,27 @@ import ticketService from "../service/ticketService";
 
 const ticketController: Router = express.Router();
 
-ticketController.get("/", async (req: Request, res: Response) => {
+ticketController.get("/", adminRoute, async (req: Request, res: Response) => {
   try {
-    console.log(req.token);
     const tickets = await ticketService.get();
     res.status(200).send(tickets);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+ticketController.get("/user/:userId", async (req: Request, res: Response) => {
+  try {
+    if (!req.token) {
+      res.status(401).send("User not logged in.");
+      return;
+    }
+    if (req.token.id !== req.params.userId) {
+      res.status(401).send("Unauthorized.");
+      return;
+    }
+    const ticket = await ticketService.getByUserId(req.token.id);
+    res.status(200).send(ticket);
   } catch (error) {
     res.status(500).send(error);
   }

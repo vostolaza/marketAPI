@@ -41,8 +41,12 @@ const purchaseService = {
       let valid = items.length > 0;
       let purchaseTotal = 0;
       for (var i = 0; i < sortedProducts.length; i++) {
-        valid = valid && sortedItems[i].quantity > 0 && sortedProducts[i].stock >= sortedItems[i].quantity;
-        sortedItems[i].price = (sortedProducts[i].price as number) * sortedItems[i].quantity;
+        valid =
+          valid &&
+          sortedItems[i].quantity > 0 &&
+          sortedProducts[i].stock >= sortedItems[i].quantity;
+        sortedItems[i].price =
+          (sortedProducts[i].price as number) * sortedItems[i].quantity;
         sortedItems[i].name = sortedProducts[i].name;
         sortedItems[i].description = sortedProducts[i].description;
         purchaseTotal =
@@ -72,10 +76,10 @@ const purchaseService = {
       }).populate({ path: "items.productId", model: Product });
     });
   },
-  getById: async (purchaseId): Promise<PurchaseDTO> => {
+  getById: async (purchaseId: string, userId: string): Promise<PurchaseDTO> => {
     return new Promise<PurchaseDTO>((resolve, reject) => {
       Purchase.findOne(
-        { _id: purchaseId },
+        { _id: purchaseId, userId },
         (err: CallbackError, purchase: PurchaseDTO) => {
           if (err) {
             reject(err);
