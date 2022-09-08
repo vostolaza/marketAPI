@@ -1,4 +1,4 @@
-import express, { Request, response, Response, Router } from "express";
+import express, { Request, Response, Router } from "express";
 import { getErrorMessage } from "../utils/errorMessage";
 import userService from "../service/userService";
 
@@ -9,7 +9,7 @@ userController.post("/", async (req: Request, res: Response) => {
     const user = await userService.register(req.body);
     res.status(200).send(user);
   } catch (error) {
-    response.status(500).send(error);
+    res.status(500).send(error);
   }
 });
 

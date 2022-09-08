@@ -15,7 +15,14 @@ const app = express();
 
 declare module "express-serve-static-core" {
   interface Request {
-    token?: string | JwtPayload;
+    token?: JwtPayload;
+  }
+}
+
+declare module "jsonwebtoken" {
+  export interface JwtPayload {
+    id: string;
+    role: string;
   }
 }
 

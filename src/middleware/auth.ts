@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 const dotenv = require("dotenv");
@@ -15,7 +15,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const decoded = jwt.verify(token, JWT_KEY);
-    req.token = decoded;
+    req.token = decoded as JwtPayload;
 
     next();
   } catch (err) {

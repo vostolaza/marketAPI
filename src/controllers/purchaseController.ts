@@ -1,14 +1,15 @@
-import express, { Request, response, Response, Router } from "express";
+import express, { Request, Response, Router } from "express";
+import { adminRoute } from "../middleware/adminRoute";
 import purchaseService from "../service/purchaseService";
 
 const purchaseController: Router = express.Router();
 
-purchaseController.get("/", async (req: Request, res: Response) => {
+purchaseController.get("/", adminRoute, async (req: Request, res: Response) => {
   try {
     const purchases = await purchaseService.get();
     res.status(200).send(purchases);
   } catch (error) {
-    response.status(500).send(error);
+    res.status(500).send(error);
   }
 });
 
@@ -21,7 +22,7 @@ purchaseController.get("/:purchaseId", async (req: Request, res: Response) => {
       res.status(200).send(purchase);
     }
   } catch (error) {
-    response.status(500).send(error);
+    res.status(500).send(error);
   }
 });
 
@@ -30,13 +31,13 @@ purchaseController.get("/user/:userId", async (req: Request, res: Response) => {
     const purchases = await purchaseService.getByUserId(req.params.userId);
     res.status(200).send(purchases);
   } catch (error) {
-    response.status(500).send(error);
+    res.status(500).send(error);
   }
 });
 
 purchaseController.post("/", async (req: Request, res: Response) => {
   try {
-    const [ validPurchase, purchaseItems, purchaseTotal ] =
+    const [validPurchase, purchaseItems, purchaseTotal] =
       await purchaseService.validatePurchase(req.body.items);
     console.log(
       "valid:",
@@ -59,7 +60,7 @@ purchaseController.post("/", async (req: Request, res: Response) => {
       res.status(400).send({ error: "Invalid purchase." });
     }
   } catch (error) {
-    response.status(500).send(error);
+    res.status(500).send(error);
   }
 });
 
