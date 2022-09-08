@@ -5,4 +5,5 @@ export interface ProductDTO extends mongoose.Document {
   name: string;
   description: string;
   stock: Number;
+  price: Number;
 }

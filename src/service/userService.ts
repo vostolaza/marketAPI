@@ -14,29 +14,9 @@ type MongooseUserQueryResult =
   | null;
 
 const userService = {
-  create: async (user: UserDTO): Promise<UserDTO> => {
+  register: async (user: UserDTO): Promise<UserDTO> => {
     return new Promise<UserDTO>((resolve, reject) => {
       User.create(user, (err: CallbackError, newUser: UserDTO) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(newUser);
-      });
-    });
-  },
-  get: async (): Promise<UserDTO[]> => {
-    return new Promise<UserDTO[]>((resolve, reject) => {
-      User.find({}, (err: CallbackError, users: UserDTO[]) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(users);
-      });
-    });
-  },
-  getById: async (id): Promise<UserDTO> => {
-    return new Promise<UserDTO>((resolve, reject) => {
-      User.findOne({ _id: id }, (err: CallbackError, newUser: UserDTO) => {
         if (err) {
           reject(err);
         }
@@ -54,14 +34,22 @@ const userService = {
         const isMatch = bcrypt.compareSync(user.password, foundUser.password);
         if (isMatch) {
           const token = jwt.sign(
-            { _id: foundUser._id?.toString(), name: foundUser.username },
+            {
+              _id: foundUser._id?.toString(),
+              name: foundUser.username,
+              role: foundUser.role,
+            },
             JWT_KEY,
             {
               expiresIn: "2 days",
             }
           );
           resolve({
-            user: { _id: foundUser._id, username: foundUser.username },
+            user: {
+              _id: foundUser._id,
+              username: foundUser.username,
+              role: foundUser.role,
+            },
             token,
           });
         } else {

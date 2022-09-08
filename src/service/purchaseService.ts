@@ -10,10 +10,14 @@ type MongoosePurchaseQueryResult =
   | null;
 
 const purchaseService = {
-  create: async (purchase: PurchaseDTO): Promise<PurchaseDTO> => {
+  create: async (
+    purchase: PurchaseDTO,
+    purchaseItems: Array<any>,
+    purchaseTotal: Number
+  ): Promise<PurchaseDTO> => {
     return new Promise<PurchaseDTO>((resolve, reject) => {
       Purchase.create(
-        purchase,
+        { ...purchase, items: purchaseItems, purchaseTotal },
         (err: CallbackError, newPurchase: PurchaseDTO) => {
           if (err) {
             reject(err);
@@ -23,8 +27,8 @@ const purchaseService = {
       );
     });
   },
-  validatePurchase: async (items: Array<any>): Promise<Boolean> => {
-    return new Promise<Boolean>(async (resolve, reject) => {
+  validatePurchase: async (items: Array<any>): Promise<Array<any>> => {
+    return new Promise<Array<any>>(async (resolve, reject) => {
       const sortedItems = items.sort(({ productId: idA }, { productId: idB }) =>
         idA > idB ? 1 : idB > idA ? -1 : 0
       );
@@ -35,10 +39,18 @@ const purchaseService = {
         idA > idB ? 1 : idB > idA ? -1 : 0
       );
       let valid = items.length > 0;
+      let purchaseTotal = 0;
       for (var i = 0; i < sortedProducts.length; i++) {
         valid = valid && sortedProducts[i].stock >= sortedItems[i].quantity;
+        sortedItems[i].price = (sortedProducts[i].price as number) * sortedItems[i].quantity;
+        sortedItems[i].name = sortedProducts[i].name;
+        sortedItems[i].description = sortedProducts[i].description;
+        purchaseTotal =
+          purchaseTotal +
+          (sortedProducts[i].price as number) * sortedItems[i].quantity;
       }
-      resolve(valid);
+
+      resolve([valid, sortedItems, purchaseTotal]);
     });
   },
   reduceStock: async (items: Array<any>) => {

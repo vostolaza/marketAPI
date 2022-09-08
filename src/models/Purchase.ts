@@ -14,14 +14,16 @@ const PurchaseSchema = new Schema<PurchaseDTO>(
       new Schema(
         {
           productId: { type: ObjectId, required: true, ref: "Product" },
+          name: {type: String, required: true},
+          description: {type: String, required: true},
           quantity: { type: Number, required: true },
+          price: { type: Number, required: true },
         },
         { _id: false }
       ),
     ],
-    status: {
-      type: String,
-    },
+    status: { type: String },
+    purchaseTotal: { type: Number, required: true },
   },
   { timestamps: true }
 );

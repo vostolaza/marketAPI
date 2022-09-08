@@ -36,12 +36,24 @@ purchaseController.get("/user/:userId", async (req: Request, res: Response) => {
 
 purchaseController.post("/", async (req: Request, res: Response) => {
   try {
-    const validPurchase = await purchaseService.validatePurchase(
-      req.body.items
+    const [ validPurchase, purchaseItems, purchaseTotal ] =
+      await purchaseService.validatePurchase(req.body.items);
+    console.log(
+      "valid:",
+      validPurchase,
+      "\nitems:",
+      purchaseItems,
+      "total:",
+      purchaseTotal
     );
+
     if (validPurchase) {
       await purchaseService.reduceStock(req.body.items);
-      const purchase = await purchaseService.create(req.body);
+      const purchase = await purchaseService.create(
+        req.body,
+        purchaseItems,
+        purchaseTotal
+      );
       res.status(200).send(purchase);
     } else {
       res.status(400).send({ error: "Invalid purchase." });

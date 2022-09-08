@@ -6,4 +6,5 @@ export interface PurchaseDTO extends mongoose.Document  {
   userId: ObjectId;
   items: Array<any>;
   status: PurchaseStatus;
+  purchaseTotal: Number;
 }
