@@ -35,7 +35,7 @@ const userService = {
         if (isMatch) {
           const token = jwt.sign(
             {
-              _id: foundUser._id?.toString(),
+              id: foundUser._id?.toString(),
               name: foundUser.username,
               role: foundUser.role,
             },

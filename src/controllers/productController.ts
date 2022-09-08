@@ -4,7 +4,7 @@ import productService from "../service/productService";
 const productController: Router = express.Router();
 
 productController.get("/", async (req: Request, res: Response) => {
-  try {
+  try {    
     const purchases = await productService.get();
     res.status(200).send(purchases);
   } catch (error) {
