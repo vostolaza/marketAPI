@@ -13,9 +13,9 @@ ticketController.get("/", async (req: Request, res: Response) => {
   }
 });
 
-ticketController.get("/:id", async (req: Request, res: Response) => {
+ticketController.get("/:ticketId", async (req: Request, res: Response) => {
   try {
-    const tickets = await ticketService.getById(req.params.id);
+    const tickets = await ticketService.getById(req.params.ticketId);
     res.status(200).send(tickets);
   } catch (error) {
     response.status(500).send(error);
@@ -25,6 +25,18 @@ ticketController.get("/:id", async (req: Request, res: Response) => {
 ticketController.post("/", async (req: Request, res: Response) => {
   try {
     const ticket = await ticketService.create(req.body);
+    res.status(200).send(ticket);
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
+ticketController.patch("/:ticketId", async (req: Request, res: Response) => {
+  try {
+    const ticket = await ticketService.updateStatusById(
+      req.params.ticketId,
+      req.body
+    );
     res.status(200).send(ticket);
   } catch (error) {
     response.status(500).send(error);

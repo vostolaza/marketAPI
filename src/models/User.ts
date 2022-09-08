@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema<UserDTO>({
   username: { type: String, required: true, index: "hashed", unique: true },
   password: { type: String, required: true },
+  role: { type: String, enum: ["CLIENT", "ADMIN"], default: "CLIENT" },
   email: {
     type: String,
     required: true,

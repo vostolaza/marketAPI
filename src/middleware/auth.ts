@@ -1,4 +1,4 @@
-import jwt, { Secret, JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 const dotenv = require("dotenv");

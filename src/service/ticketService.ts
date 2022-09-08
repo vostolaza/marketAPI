@@ -53,6 +53,21 @@ const ticketService = {
       );
     });
   },
+  updateStatusById: async (ticketId, ticketData): Promise<TicketDTO> => {
+    return new Promise<TicketDTO>((resolve, reject) => {
+      Ticket.findOneAndUpdate(
+        { _id: ticketId },
+        { status: ticketData.status },
+        { new: true, upsert: true },
+        (err: CallbackError, ticket: TicketDTO) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(ticket);
+        }
+      );
+    });
+  },
 };
 
 export default ticketService;
