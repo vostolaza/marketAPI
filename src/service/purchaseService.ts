@@ -34,7 +34,7 @@ const purchaseService = {
       const sortedProducts = products.sort(({ _id: idA }, { _id: idB }) =>
         idA > idB ? 1 : idB > idA ? -1 : 0
       );
-      let valid = true;
+      let valid = items.length > 0;
       for (var i = 0; i < sortedProducts.length; i++) {
         valid = valid && sortedProducts[i].stock >= sortedItems[i].quantity;
       }

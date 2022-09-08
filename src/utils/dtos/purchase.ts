@@ -1,10 +1,9 @@
-import { ObjectId } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import { PurchaseStatus } from "../types/purchaseStatus";
 
-export interface PurchaseDTO {
+export interface PurchaseDTO extends mongoose.Document  {
   _id: string;
   userId: ObjectId;
   items: Array<any>;
   status: PurchaseStatus;
-  save: () => Promise<void>;
 }

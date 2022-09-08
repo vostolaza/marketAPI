@@ -5,6 +5,7 @@ const ticketController: Router = express.Router();
 
 ticketController.get("/", async (req: Request, res: Response) => {
   try {
+    console.log(req.token);
     const tickets = await ticketService.get();
     res.status(200).send(tickets);
   } catch (error) {
