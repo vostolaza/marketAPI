@@ -1,5 +1,6 @@
 import { CallbackError, Document } from "mongoose";
 import User from "../models/User";
+import VulnerableUser from "../models/VulnerableUser";
 import { UserDTO } from "../utils/dtos/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -17,6 +18,16 @@ const userService = {
   register: async (user: UserDTO): Promise<UserDTO> => {
     return new Promise<UserDTO>((resolve, reject) => {
       User.create(user, (err: CallbackError, newUser: UserDTO) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(newUser);
+      });
+    });
+  },
+  vulnerableRegister: async (user: UserDTO): Promise<UserDTO> => {
+    return new Promise<UserDTO>((resolve, reject) => {
+      VulnerableUser.create(user, (err: CallbackError, newUser: UserDTO) => {
         if (err) {
           reject(err);
         }
@@ -47,6 +58,7 @@ const userService = {
             user: {
               _id: foundUser._id,
               username: foundUser.username,
+              email: foundUser.email,
               role: foundUser.role,
             },
             token,
