@@ -39,7 +39,7 @@ purchaseController.get("/user/:userId", async (req: Request, res: Response) => {
       res.status(401).send("User not logged in.");
       return;
     }
-    if (req.token.id !== req.params.id) {
+    if (req.token.id !== req.params.userId) {
       res.status(401).send("Unauthorized.");
       return;
     }
