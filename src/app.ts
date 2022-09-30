@@ -3,6 +3,7 @@ import productController from "./controllers/productController";
 import purchaseController from "./controllers/purchaseController";
 import ticketController from "./controllers/ticketController";
 import userController from "./controllers/userController";
+import metricsController from "./controllers/metricsController";
 import { auth } from "./middleware/auth";
 
 var createError = require("http-errors");
@@ -40,6 +41,7 @@ app.use("/user", userController);
 app.use("/purchase", auth, purchaseController);
 app.use("/product", auth, productController);
 app.use("/ticket", auth, ticketController);
+app.use("/metrics", metricsController);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
